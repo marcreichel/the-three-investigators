@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <title>??? Zufallsfolge</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+<div class="flex items-center justify-center h-screen">
+    <div class="p-4 lg:p-8 text-center flex flex-col gap-3">
+        <div class="flex text-5xl font-bold mx-auto">
+            <span class="text-white">?</span>
+            <span class="text-[#e91520]">?</span>
+            <span class="text-[#01adec]">?</span>
+        </div>
+        <div id="episode" class="text-3xl font-semibold">&nbsp;</div>
+        <div id="label" class="text-xl">&nbsp;</div>
+
+        <div class="mt-8">
+            <button type="button" id="reroll" class="p-4" aria-label="Neue Zufallsfolge">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+    const list = fetch('episodes.json').then((r) => r.json());
+
+    async function roll() {
+        const entries = Object.entries(await list);
+        const [number, label] = entries[Math.floor(Math.random() * entries.length)];
+        document.getElementById('episode').textContent = '#' + number;
+        document.getElementById('label').textContent = label;
+    }
+
+    document.getElementById('reroll').addEventListener('click', roll);
+    roll();
+</script>
+</body>
+</html>
